@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pet Spa · Banho de Luxo com IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@400;600;700&display=swap">
+<style>
+  :root{
+    --primary:#403ccf; --primary-dark:#322fa6; --text:#49495a; --heading:#2b2b3a;
+    --bg:#fbfaff; --tint:#f4f0ff; --card:#eae8f3; --border:#d0ced9; --muted:#6b6b7c;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  body{margin:0;font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+  h1,h2,h3{font-family:'Libre Baskerville',serif;font-weight:400;color:var(--primary);margin:0}
+  a{color:var(--primary)}
+  header{height:72px;padding:0 5vw;display:flex;align-items:center;gap:32px;background:#fff;border-bottom:1px solid var(--card)}
+  .logo{font-family:'Libre Baskerville',serif;font-size:26px;color:var(--primary);text-decoration:none}
+  nav{display:flex;gap:24px;flex:1;font-weight:600;font-size:15px}
+  nav a{color:var(--text);text-decoration:none}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 28px;border-radius:10px;font-weight:600;font-size:16px;text-decoration:none;border:0;cursor:pointer;font-family:inherit}
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-primary:hover{background:var(--primary-dark)}
+  .btn-primary:disabled{opacity:.55;cursor:not-allowed}
+  .btn-ghost{background:#fff;color:var(--primary);border:1px solid var(--border)}
+  .btn-sm{height:44px;padding:0 20px;font-size:15px}
+  main{max-width:1180px;margin:0 auto;padding:48px 5vw 80px}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--primary)}
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:start}
+  .stack{display:flex;flex-direction:column;gap:20px}
+  .drop{display:flex;flex-direction:column;gap:12px;padding:20px;background:#fff;border:2px dashed #b9b4e6;border-radius:16px}
+  .drop.over{background:var(--tint);border-color:var(--primary)}
+  .drop label{font-weight:600;color:var(--heading)}
+  .hint{font-size:13px;color:var(--muted)}
+  .preview{display:flex;align-items:center;gap:16px}
+  .preview img{width:96px;height:96px;object-fit:cover;border-radius:12px;background:var(--card)}
+  .key{display:flex;flex-direction:column;gap:6px;padding:16px 18px;background:var(--tint);border-radius:14px;font-size:13px}
+  .key input{height:42px;padding:0 12px;border:1px solid var(--border);border-radius:10px;font-family:inherit;font-size:14px;width:100%}
+  .frame{position:relative;width:100%;aspect-ratio:1/1;border-radius:24px;overflow:hidden;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+  .frame img{width:100%;height:100%;object-fit:cover;display:block}
+  .chip{position:absolute;top:16px;left:16px;padding:8px 14px;background:rgba(255,255,255,.94);color:var(--primary);border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  .spinner{width:64px;height:64px;animation:spin 1.1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .status{display:flex;flex-direction:column;align-items:center;gap:14px;color:var(--primary);font-weight:600;font-size:14px;text-align:center;padding:24px}
+  .cta{display:none;flex-direction:column;gap:16px;padding:24px;background:#fff;border:1px solid var(--card);border-radius:18px;margin-top:20px}
+  .cta.show{display:flex}
+  .cta ul{margin:0;padding-left:20px;font-size:14px}
+  .price{font-weight:700;color:var(--primary)}
+  .error{display:none;padding:14px 16px;border-radius:12px;background:#fdecec;color:#8a1c1c;font-size:14px}
+  .error.show{display:block}
+  .steps{margin-top:64px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+  .steps div{padding:22px 24px;background:#fff;border-radius:14px}
+  .steps h3{font-size:18px;margin-bottom:6px}
+  dialog{border:0;border-radius:20px;padding:32px;max-width:520px;width:92vw;font-family:inherit;color:var(--text)}
+  dialog::backdrop{background:rgba(43,43,58,.55)}
+  .field{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:var(--heading)}
+  .field input,.field select{height:44px;padding:0 12px;border:1px solid var(--border);border-radius:10px;font-family:inherit;font-size:15px;font-weight:400}
+  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .about{margin-top:80px;display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:center;padding:40px;background:#fff;border:1px solid var(--card);border-radius:24px}
+  .about img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:18px;display:block}
+  .pillars{display:flex;flex-direction:column;gap:12px;margin-top:8px}
+  .pillars div{padding:16px 18px;background:var(--tint);border-radius:12px;font-size:14px}
+  .pillars h3{font-size:17px;margin-bottom:4px}
+  .services{margin-top:64px}
+  .contact{margin-top:64px;padding:40px;background:var(--tint);border-radius:24px;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+  @media (max-width:860px){.hero,.about{grid-template-columns:1fr}.steps{grid-template-columns:1fr}nav{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#">Pet Spa</a>
+  <nav><a href="#como">Como funciona</a><a href="#sobre">Sobre a loja</a><a href="#servicos">Serviços</a><a href="#contato">Contato</a></nav>
+  <button class="btn btn-primary btn-sm" data-open-booking>Agendar banho</button>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="stack">
+      <span class="eyebrow">Experiência Banho de Luxo</span>
+      <h1 style="font-size:clamp(34px,4.5vw,50px);line-height:1.15">Veja seu cachorro numa banheira de luxo</h1>
+      <p style="font-size:17px;margin:0">Envie uma foto do seu pet e a nossa inteligência artificial mostra como ele ficaria relaxando num banho de spa. Depois, é só agendar o banho de verdade.</p>
+
+      <div class="drop" id="drop">
+        <div class="preview" id="preview" hidden>
+          <img id="previewImg" alt="Prévia da foto enviada">
+          <div style="flex:1;min-width:0">
+            <div id="fileName" style="font-weight:600;color:var(--heading);overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
+            <div class="hint">Foto pronta para gerar a imagem.</div>
+          </div>
+          <button type="button" class="btn btn-ghost btn-sm" id="clear">Trocar foto</button>
+        </div>
+        <div id="picker">
+          <label for="foto">Envie a foto do seu cachorro</label>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <input id="foto" type="file" accept="image/png,image/jpeg,image/webp">
+            <button type="button" class="btn btn-ghost btn-sm" id="sample">Usar foto de exemplo</button>
+          </div>
+          <div class="hint">JPG, PNG ou WebP até 10 MB. Arraste a foto aqui ou escolha o arquivo. Prefira uma foto de frente e bem iluminada.</div>
+        </div>
+      </div>
+
+      <div class="key">
+        <label for="apiKey" style="font-weight:700;color:var(--primary)">Chave da API da OpenAI (somente para este protótipo)</label>
+        <input id="apiKey" type="password" placeholder="sk-..." autocomplete="off">
+        <span class="hint">Fica só nesta aba do navegador. No site final, a chamada é feita pelo servidor do Pet Spa e o cliente nunca vê a chave.</span>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <button class="btn btn-primary" id="generate" disabled>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.6L18.4 9.4l-4.6 1.8L12 15.8l-1.8-4.6L5.6 9.4l4.6-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>
+          Gerar banho de luxo
+        </button>
+        <span class="hint" style="max-width:300px">Sua foto é usada só para gerar a imagem e não fica salva.</span>
+      </div>
+      <div class="error" id="error" role="alert"></div>
+    </div>
+
+    <div>
+      <div class="frame" id="frame">
+        <div class="status" id="status">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#403ccf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16v3a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M4 12V6a2 2 0 0 1 2-2h1"/><path d="M7 20v1M17 20v1"/><circle cx="14" cy="7" r="1"/><circle cx="17" cy="5" r="1"/><circle cx="11" cy="5" r="1"/></svg>
+          A imagem do seu pet no banho de luxo aparece aqui
+        </div>
+        <img id="result" alt="" hidden>
+        <span class="chip" id="chip" hidden>Gerado com IA</span>
+      </div>
+
+      <div class="cta" id="cta">
+        <span class="eyebrow">Ficou lindo, não ficou?</span>
+        <h2 style="font-size:28px;line-height:1.2">Agora deixa a gente fazer isso de verdade</h2>
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><strong style="font-family:'Libre Baskerville',serif;font-weight:400;font-size:20px;color:var(--heading)">Banho de Luxo</strong><span class="price">[SEU PREÇO]</span></div>
+        <ul>
+          <li>Banho, escovação, corte de unhas e limpeza de ouvido</li>
+          <li>Aromaterapia, bálsamo para patas e perfume pet-friendly</li>
+          <li>Avaliação inicial de pelo e pele por groomer experiente</li>
+        </ul>
+        <button class="btn btn-primary" data-open-booking>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          Agendar banho de luxo
+        </button>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn btn-ghost btn-sm" id="download" download="pet-spa-banho-de-luxo.png" href="#">Baixar imagem</a>
+          <button class="btn btn-ghost btn-sm" type="button" id="again">Gerar outra foto</button>
+        </div>
+        <span class="hint" style="text-align:center">Agendamento online, sem compromisso. Você confirma o horário pelo WhatsApp.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="steps" id="como">
+    <div><h3>1. Envie a foto</h3><span style="font-size:14px">Qualquer foto nítida do seu cachorro funciona.</span></div>
+    <div><h3>2. A IA cria a cena</h3><span style="font-size:14px">Em segundos, seu pet aparece numa banheira de spa com espuma e mármore.</span></div>
+    <div><h3>3. Agende o banho real</h3><span style="font-size:14px">Groomers experientes e produtos de primeira no Pet Spa.</span></div>
+  </section>
+
+  <section id="sobre" class="about">
+    <img src="equipe-pet-spa.jpg" alt="Equipe de groomers do Pet Spa com dois cachorros na mesa de tosa">
+    <div class="stack">
+      <span class="eyebrow">Sobre a loja</span>
+      <h2 style="font-size:clamp(28px,3.5vw,38px);line-height:1.2">Pet Spa é o lugar certo para tudo o que o seu pet precisa</h2>
+      <p style="margin:0">Somos uma loja completa de banho e tosa, com serviços pensados para deixar seu amigo peludo bonito e se sentindo bem.</p>
+      <div class="pillars">
+        <div><h3>Groomers experientes</h3><span>Uma equipe apaixonada por pets e dedicada ao cuidado da mais alta qualidade.</span></div>
+        <div><h3>Instalações modernas</h3><span>Equipamentos e produtos de ponta para uma experiência segura e confortável.</span></div>
+        <div><h3>Serviços personalizados</h3><span>Cada pet recebe um serviço pensado para sua raça, tipo de pelo e estilo de vida.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="servicos" class="services">
+    <div class="stack" style="gap:8px">
+      <span class="eyebrow">Serviços</span>
+      <h2 style="font-size:clamp(26px,3vw,34px)">Escolha o cuidado ideal para o seu pet</h2>
+    </div>
+    <div class="steps" style="margin-top:24px">
+      <div><h3>Banho básico</h3><span style="font-size:14px">Banho, escovação, corte de unhas e limpeza de ouvido.</span></div>
+      <div><h3>Banho de Luxo</h3><span style="font-size:14px">Banho completo com aromaterapia, bálsamo para patas e perfume pet-friendly.</span></div>
+      <div><h3>Tosa avançada</h3><span style="font-size:14px">Escovação dental, desembolo e estilos específicos por raça.</span></div>
+    </div>
+  </section>
+
+  <section id="contato" class="contact">
+    <div class="stack" style="gap:10px">
+      <span class="eyebrow">Contato e suporte</span>
+      <h2 style="font-size:clamp(26px,3vw,34px)">Fale com a gente</h2>
+      <p style="margin:0">Pet Spa · [ENDEREÇO DA LOJA]<br>WhatsApp [TELEFONE] · Chat ao vivo no site · Agendamento online</p>
+      <p class="hint" style="margin:0">Você recebe lembretes de agendamento e ofertas por e-mail e WhatsApp.</p>
+    </div>
+    <button class="btn btn-primary" data-open-booking>Agendar banho</button>
+  </section>
+</main>
+
+<dialog id="booking">
+  <form method="dialog" class="stack" id="bookingForm" style="gap:16px">
+    <span class="eyebrow">Agendamento</span>
+    <h2 style="font-size:30px">Agende o banho de luxo</h2>
+    <div class="grid2">
+      <label class="field">Seu nome<input type="text" required placeholder="Ana Souza"></label>
+      <label class="field">WhatsApp<input type="tel" required placeholder="(11) 99999-9999"></label>
+      <label class="field">Nome do pet<input type="text" required placeholder="Thor"></label>
+      <label class="field">Porte<select><option>Pequeno (até 10 kg)</option><option>Médio (10 a 25 kg)</option><option>Grande (acima de 25 kg)</option></select></label>
+      <label class="field">Data<input type="date" required></label>
+      <label class="field">Horário<select><option>09:00</option><option selected>10:00</option><option>11:30</option><option>14:00</option><option>15:30</option><option>17:00</option></select></label>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end">
+      <button type="button" class="btn btn-ghost btn-sm" data-close-booking>Cancelar</button>
+      <button type="submit" class="btn btn-primary btn-sm">Confirmar agendamento</button>
+    </div>
+  </form>
+  <div id="bookingDone" class="stack" hidden style="align-items:center;text-align:center">
+    <h2 style="font-size:30px">Banho de luxo agendado!</h2>
+    <p style="margin:0">Enviamos a confirmação e um lembrete por WhatsApp e e-mail.</p>
+    <button type="button" class="btn btn-primary btn-sm" data-close-booking>Fechar</button>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  const PROMPT = 'Coloque este cachorro dentro de uma banheira de luxo tomando banho, com espuma, mármore, torneiras douradas e iluminação suave de spa. Mantenha exatamente a aparência, a raça e a cor do pelo do cachorro. Foto realista, estilo editorial de pet spa.';
+
+  const $ = (id) => document.getElementById(id);
+  const drop = $('drop'), fileInput = $('foto'), preview = $('preview'), previewImg = $('previewImg');
+  const picker = $('picker'), fileName = $('fileName'), apiKey = $('apiKey'), generate = $('generate');
+  const status = $('status'), result = $('result'), chip = $('chip'), cta = $('cta'), error = $('error');
+  let file = null;
+
+  try { apiKey.value = sessionStorage.getItem('petspa_openai_key') || ''; } catch (e) {}
+  apiKey.addEventListener('input', () => {
+    try { sessionStorage.setItem('petspa_openai_key', apiKey.value.trim()); } catch (e) {}
+    refresh();
+  });
+
+  function refresh() { generate.disabled = !(file && apiKey.value.trim()); }
+
+  function setFile(f) {
+    if (!f || !/^image\/(png|jpeg|webp)$/.test(f.type)) { showError('Envie uma imagem JPG, PNG ou WebP.'); return; }
+    if (f.size > 10 * 1024 * 1024) { showError('A foto precisa ter até 10 MB.'); return; }
+    file = f;
+    previewImg.src = URL.createObjectURL(f);
+    fileName.textContent = f.name;
+    preview.hidden = false; picker.hidden = true;
+    hideError(); refresh();
+  }
+
+  fileInput.addEventListener('change', () => setFile(fileInput.files[0]));
+  $('sample').addEventListener('click', async () => {
+    try {
+      const blob = await (await fetch('exemplo-cachorro.jpg')).blob();
+      setFile(new File([blob], 'exemplo-cachorro.jpg', { type: 'image/jpeg' }));
+    } catch (e) { showError('Não foi possível carregar a foto de exemplo.'); }
+  });
+  $('clear').addEventListener('click', () => { file = null; fileInput.value = ''; preview.hidden = true; picker.hidden = false; refresh(); });
+  ['dragenter', 'dragover'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop', (e) => setFile(e.dataTransfer.files[0]));
+
+  function showError(msg) { error.textContent = msg; error.classList.add('show'); }
+  function hideError() { error.classList.remove('show'); }
+
+  function setStatus(html) {
+    status.innerHTML = html; status.hidden = false; result.hidden = true; chip.hidden = true;
+  }
+
+  generate.addEventListener('click', async () => {
+    hideError();
+    generate.disabled = true;
+    cta.classList.remove('show');
+    setStatus('<svg class="spinner" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="19" stroke="#d0ced9" stroke-width="5"/><path d="M43 24a19 19 0 0 0-19-19" stroke="#403ccf" stroke-width="5" stroke-linecap="round"/></svg>Seu pet está entrando na banheira de luxo.<br><span class="hint">Isso leva entre 10 e 30 segundos.</span>');
+
+    const form = new FormData();
+    form.append('model', 'gpt-image-1');
+    form.append('image', file, file.name);
+    form.append('prompt', PROMPT);
+    form.append('size', '1024x1024');
+    form.append('quality', 'medium');
+
+    try {
+      const res = await fetch('https://api.openai.com/v1/images/edits', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + apiKey.value.trim() },
+        body: form
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error((data.error && data.error.message) || ('Erro ' + res.status));
+      const item = data.data && data.data[0];
+      const src = item && item.b64_json ? 'data:image/png;base64,' + item.b64_json : item && item.url;
+      if (!src) throw new Error('A API não retornou uma imagem.');
+      result.src = src;
+      result.alt = 'Imagem gerada: seu cachorro numa banheira de luxo';
+      result.hidden = false; status.hidden = true; chip.hidden = false;
+      $('download').href = src;
+      cta.classList.add('show');
+      cta.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } catch (err) {
+      setStatus('A imagem não pôde ser gerada.');
+      showError('Não conseguimos gerar a imagem: ' + err.message);
+    } finally {
+      refresh();
+    }
+  });
+
+  $('again').addEventListener('click', () => {
+    $('clear').click();
+    cta.classList.remove('show');
+    setStatus('A imagem do seu pet no banho de luxo aparece aqui');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  const booking = $('booking'), bookingForm = $('bookingForm'), bookingDone = $('bookingDone');
+  document.querySelectorAll('[data-open-booking]').forEach((b) => b.addEventListener('click', () => {
+    bookingForm.hidden = false; bookingDone.hidden = true; booking.showModal();
+  }));
+  document.querySelectorAll('[data-close-booking]').forEach((b) => b.addEventListener('click', () => booking.close()));
+  bookingForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!bookingForm.reportValidity()) return;
+    bookingForm.hidden = true; bookingDone.hidden = false;
+  });
+})();
+</script>
+</body>
+</html>
